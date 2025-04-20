@@ -1,0 +1,15 @@
+FROM debian:bullseye
+
+RUN apt update && apt install -y mariadb-server && apt clean && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /tools
+
+COPY conf/confg.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+
+COPY tools/script.sh script.sh
+
+RUN chmod +x script.sh
+
+EXPOSE 3306
+
+ENTRYPOINT [ "/tools/script.sh" ]
