@@ -7,6 +7,6 @@ COPY tools/script.sh script.sh
 RUN chmod +x script.sh
 
 
-ENTRYPOINT [ "tail", "-f", "/dev/null" ]
-# ENTRYPOINT ["/script.sh"]
-# ENTRYPOINT  ["php-fpm7.4", "-F"]
+
+ENTRYPOINT ["/script.sh"]
+

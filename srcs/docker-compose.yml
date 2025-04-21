@@ -50,8 +50,8 @@ services:
       volumes:
         - Wordpress_volume:/var/www/html
       secrets:
-        - wordpress_admin_password
-        - wordpress_user_password
+        - wordpress_admin_pass
+        - wordpress_user_pass
         - db_password
         - db_default_root_password
       
@@ -90,7 +90,7 @@ secrets:
     file: ../secrets/db_root_password.txt
   db_default_root_password:
     file: ../secrets/db_default_root_password.txt
-  wordpress_admin_password:
-    file: ../secrets/wordpress_admin_password.txt
-  wordpress_user_password:
-    file: ../secrets/wordpress_user_password.txt     
+  wordpress_admin_pass:
+    file: ../secrets/wordpress_admin_pass.txt
+  wordpress_user_pass:
+    file: ../secrets/wordpress_user_pass.txt

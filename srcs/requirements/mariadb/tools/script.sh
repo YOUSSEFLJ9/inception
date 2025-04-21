@@ -24,8 +24,8 @@ DB_ROOT_DEAF_PASSWD=$(cat /run/secrets/db_default_root_password)
 
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS \`$DATABASE_NAME\`;"
 mysql -u root -e "CREATE USER IF NOT EXISTS '$USER_DB'@'%' IDENTIFIED BY '$DB_PASSWD';"
-mysql -u root -e "USE \`$DATABASE_NAME\`;"
-mysql -u root -e "GRANT ALL PRIVILEGES ON \`$DATABASE_NAME\` TO '$USER_DB'@'%' WITH GRANT OPTION;"
+# connect to mysql mariadb as root user -e execute the following sql command , with giving all the permission select insert update delete.. and aply all those privilage on all the tables in the database , the (%) mean give the user the privilage to connect from any host, and this user can give those privilages to other users
+mysql -u root -e "GRANT ALL PRIVILEGES ON \`$DATABASE_NAME\`.* TO '$USER_DB'@'%' WITH GRANT OPTION;"
 
 mysql -u root -e "CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '$DB_ROOT_PASSWD';"
 mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;"

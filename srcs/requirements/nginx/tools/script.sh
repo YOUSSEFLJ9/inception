@@ -16,16 +16,16 @@ echo "server {
 
     location / {
         root /var/www/html;
-        index index.php index.html;
+        # index index.php index.html;
         autoindex on;
     }
-    # location ~ \.php$ {
-    #     # include the configuration file (fastcgi-php.conf) 
-    #     # that contains common settings for processing PHP requests with FastCGI.
-    #     include snippets/fastcgi-php.conf;
-    #     # Directs the PHP requests to a FastCGI server running on a container named wordpress at port 9000.
-    #     fastcgi_pass wordpress:9000;
-    # }
+    location ~ \.php$ {
+        # include the configuration file (fastcgi-php.conf) 
+        # that contains common settings for processing PHP requests with FastCGI.
+        include snippets/fastcgi-php.conf;
+        # Directs the PHP requests to a FastCGI server running on a container named wordpress at port 9000.
+        fastcgi_pass wordpress:9000;
+    }
 }"  > /etc/nginx/sites-enabled/default
 
 nginx -g "daemon off;"
