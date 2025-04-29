@@ -1,4 +1,4 @@
-version: '3'
+# version: '3'
 
 services:
     mariadb:
@@ -29,8 +29,8 @@ services:
         - "443:443"
       networks:
         - inception_network
-      depends_on:
-        - wordpress
+      # depends_on:
+      #   - wordpress
       volumes:
         - Wordpress_volume:/var/www/html
 
@@ -54,6 +54,39 @@ services:
         - wordpress_user_pass
         - db_password
         - db_default_root_password
+
+    redis:
+      build: requirements/bonus/redis
+      restart: always
+      image: redis:ymomen
+      container_name: redis
+      depends_on:
+        - wordpress
+      networks: 
+        - inception_network
+      expose:
+        - "6379"
+
+    ftp_server:
+      build: requirements/bonus/ftp_server
+      restart: always
+      image: ftp_server:ymomen
+      container_name: ftp_server
+      depends_on:
+        - wordpress
+      networks:
+        - inception_network
+      ports:
+        - "21:21"
+        - "20:20"
+        - "21080-21090:21080-21090"
+      volumes:
+        - Wordpress_volume:/var/www/html
+      env_file:
+        - .env
+      secrets:
+        - ftp_server_pass
+
       
 
 
@@ -94,3 +127,5 @@ secrets:
     file: ../secrets/wordpress_admin_pass.txt
   wordpress_user_pass:
     file: ../secrets/wordpress_user_pass.txt
+  ftp_server_pass:
+    file : ../secrets/ftp_server_pass.txt
