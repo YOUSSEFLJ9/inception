@@ -1,17 +1,21 @@
 #!/bin/sh
 
-FTP_PASS=$(cat /run/secrets/ftp_server_pass)
+# create user
+useradd -m "$FTP_USER"
 
+# get password
+FTP_SERVER_PASS="$(cat /run/secrets/ftp_server_pass)"
+# add password
+echo "$FTP_USER:$FTP_SERVER_PASS" | chpasswd
 
-service vsftpd start
-useradd -m -d /home/$FTP_USER -s /bin/bash $FTP_USER
+# Create the required directory for secure_chroot_dir 
+# for jailed (chrooted) FTP users (for security reasons)
+mkdir -p /var/run/vsftpd/empty
+chmod 755 /var/run/vsftpd/empty
 
-echo "$FTP_USER:$FTP_PASS" | chpasswd
+chown -R $FTP_USER:$FTP_USER /var/www/
 
-mkdir -p /home/${FTP_USER}/files
-
-chown -R $FTP_USER:$FTP_USER /home/$FTP_USER
-
-service vsftpd stop
-
-exec /usr/sbin/vsftpd /etc/vsftpd.conf
+echo "pasv_address=$PASV_ADDRESS" >> /etc/vsftpd.conf
+echo "Starting FTP in the foreground..."
+# vsftpd: secure FTP server that allows clients to connect and transfer files
+exec vsftpd /etc/vsftpd.conf
