@@ -29,8 +29,8 @@ services:
         - "443:443"
       networks:
         - inception_network
-      # depends_on:
-      #   - wordpress
+      depends_on:
+        - wordpress
       volumes:
         - Wordpress_volume:/var/www/html
 
@@ -87,9 +87,58 @@ services:
       secrets:
         - ftp_server_pass
 
+    static_site:
+      build: requirements/bonus/static_site
+      restart: always
+      image: static_site:ymomen
+      container_name: static_site
+      env_file:
+        - .env
+      ports:
+        - "1999:1999"
+      networks:
+        - inception_network
+
+    adminer:
+      build: requirements/bonus/adminer
+      restart: always
+      image: adminer:ymomen
+      container_name: adminer
+      env_file:
+        - .env
+      ports:
+        - "4040:4040"
+      networks:
+        - inception_network
+      depends_on:
+        - mariadb
+
+    portainer:
+      build: requirements/bonus/portainer
+      restart: always
+      image: portainer:ymomen
+      container_name: portainer
+      env_file:
+        - .env
+      ports:
+        - "7878:7878"
+        - "9443:9443"
+      networks:
+        - inception_network
+      depends_on:
+        - mariadb
+        - nginx
+        - wordpress
+        - adminer
+        - static_site
+        - redis
+        - ftp_server
+      secrets:
+        - portainer_usr_pass
+      volumes:
+      - portainer_data:/data 
+      - /var/run/docker.sock:/var/run/docker.sock
       
-
-
 
 
 
@@ -111,7 +160,7 @@ volumes:
         type: none
         device: /home/ymomen/data/Wordpress_volume
         o: bind
-
+    portainer_data:
 
 # configs:
 
@@ -129,3 +178,5 @@ secrets:
     file: ../secrets/wordpress_user_pass.txt
   ftp_server_pass:
     file : ../secrets/ftp_server_pass.txt
+  portainer_usr_pass:
+    file : ../secrets/portainer_usr_pass.txt
