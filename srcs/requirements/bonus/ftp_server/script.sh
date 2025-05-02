@@ -20,6 +20,5 @@ chown -R $FTP_USER:$FTP_USER /var/www/
 # add the pasv address to make connection possible from out side the docker network in the passive mode 
 echo "pasv_address=$PASV_ADDRESS" >> /etc/vsftpd.conf
 
-echo "Starting FTP in the foreground..."
 # vsftpd: secure FTP server that allows clients to connect and transfer files
 exec vsftpd /etc/vsftpd.conf

@@ -1,12 +1,11 @@
 FROM debian:bullseye
 
 
-RUN apt update && apt install -y curl ca-certificates apache2-utils
+RUN apt update && apt install -y curl apache2-utils docker-compose
 
 RUN mkdir -p /data /certificates
 
-RUN chmod -R 777 /data
-RUN chmod -R 777 /certificates
+RUN chmod -R 777 /data /certificates
 
 COPY script.sh script.sh
 
