@@ -1,7 +1,7 @@
 FROM debian:bullseye
 
 
-RUN apt update && apt install -y curl ca-certificates 
+RUN apt update && apt install -y curl ca-certificates apache2-utils
 
 RUN mkdir -p /data /certificates
 

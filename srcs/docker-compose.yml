@@ -161,6 +161,11 @@ volumes:
         device: /home/ymomen/data/Wordpress_volume
         o: bind
     portainer_data:
+      driver: local
+      driver_opts:
+        type: none
+        device: /home/ymomen/data/portainer_data
+        o: bind
 
 # configs:
 
