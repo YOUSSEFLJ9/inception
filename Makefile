@@ -30,3 +30,4 @@ clean: deletedir
 
 cleanall:deletedir
 	docker system prune -a --volumes --force
+# clean all unused resources -a all --volumes 

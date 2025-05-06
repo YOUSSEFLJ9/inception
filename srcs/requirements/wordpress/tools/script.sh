@@ -72,5 +72,5 @@ wp config set WP_CACHE 'true' --allow-root
 wp config set WP_REDIS_PORT '6379' --allow-root
 wp redis enable --allow-root
 
-# Run PHP-FPM in foreground
-php-fpm7.4 -F
+# Run PHP-FPM in foreground -> FastCGI Process Manage
+exec php-fpm7.4 -F
