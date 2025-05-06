@@ -2,7 +2,7 @@ FROM debian:bullseye
 
 WORKDIR /adminer
 
-RUN apt update && apt install -y php php-mysqli php-pgsql curl && apt clean && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt upgrade -y && apt install -y php php-mysqli curl
 
 RUN mkdir -p /adminer/www
 

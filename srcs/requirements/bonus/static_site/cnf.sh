@@ -10,9 +10,6 @@ echo "server {
     root /www;
     index index.html;
     
-    location / {
-    autoindex on;
-}
 
 }" > /etc/nginx/sites-enabled/default
 

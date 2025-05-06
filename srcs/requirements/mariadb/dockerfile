@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt update && apt install -y mariadb-server && apt clean && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt upgrade -y && apt install -y mariadb-server
 
 WORKDIR /tools
 
@@ -9,10 +9,6 @@ COPY conf/confg.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY tools/script.sh script.sh
 
 RUN mkdir -p /var/lib/mysql && mkdir -p /run/mysqld
-
-RUN chmod 755 /run/mysqld && chmod 700 /var/lib/mysql
-
-RUN chown -R mysql:mysql /var/lib/mysql && chown -R mysql:mysql /run/mysqld 
 
 RUN chmod +x script.sh
 

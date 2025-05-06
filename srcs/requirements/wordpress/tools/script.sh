@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Create necessary directories
+# Create necessary directories for php-fpm pid to mange he pid proc of phpfpm and where to install file of wp
 mkdir -p /run/php /var/www/html
 
-# Download wp-cli if not already downloaded
+# Download wp-cli if not already downloaded -> wordpress command line -q quit mode
 if [ ! -f /usr/local/bin/wp ]; then
     wget -q -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     chmod +x /usr/local/bin/wp
@@ -18,7 +18,7 @@ cd /var/www/html
 if [ ! -f wp-load.php ]; then
     wp core download --allow-root
 fi
-
+# www-data: the default web server user
 chmod -R 755 /var/www/html
 chown -R www-data:www-data /var/www/html
 
@@ -37,7 +37,7 @@ if [ ! -f wp-config.php ]; then
         --dbhost=mariadb:3306
 fi
 
-# Install WordPress only if it's not already installed
+# Install WordPress site only if it's not already installed
 if ! wp core is-installed --allow-root; then
     wp core install --allow-root \
         --url="$DOMAIN_NAME" \
@@ -58,13 +58,9 @@ if [ "$CURRENT_THEME" != "twentytwentyfour" ]; then
     wp theme install twentytwentyfour --activate --allow-root
 fi
 
-# Update site URL options
-wp option update home "$DOMAIN_NAME" --allow-root
-wp option update siteurl "$DOMAIN_NAME" --allow-root
-
-
 
 # Fix php-fpm port to now work with the unix socket but the ip tcp from 0.0.0.0:9000
+#sed command strem editing , -i edit in file not in the output s is substion minn tebda | is the delem , the next is the remplacment string until | , at the end the file name
 sed -i 's|listen = /run/php/php7.4-fpm.sock|listen = 9000|' /etc/php/7.4/fpm/pool.d/www.conf
 
 # this lines to install the redis object caching if not alrad instaled 

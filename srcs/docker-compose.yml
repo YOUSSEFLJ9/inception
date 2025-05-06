@@ -136,10 +136,10 @@ services:
       secrets:
         - portainer_usr_pass
       volumes:
-      - portainer_data:/data 
+      - portainer_data:/data_pt 
       - /var/run/docker.sock:/var/run/docker.sock
+# this up is the socket to docker engine which is the center apo interface for docker
       
-
 
 
 networks:

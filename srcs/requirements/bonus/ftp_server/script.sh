@@ -7,10 +7,6 @@ FTP_SERVER_PASS="$(cat /run/secrets/ftp_server_pass)"
 # set the password to the local user
 echo "$FTP_USER:$FTP_SERVER_PASS" | chpasswd
 
-# This option should be the name of a directory which is empty.  Also, the
-# directory should not be writable by the ftp user. This directory is used
-# as a secure chroot() jail at times vsftpd does not require filesystem
-# access.
 mkdir -p /var/run/vsftpd/empty
 chmod 755 /var/run/vsftpd/empty
 
